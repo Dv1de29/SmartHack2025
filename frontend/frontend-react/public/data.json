@@ -1,0 +1,42 @@
+[
+  {
+    "id": "off-001",
+    "name": "Alpha Conference Room",
+    "type": "Meeting Room",
+    "capacity": 12,
+    "facilities": ["Projector", "Whiteboard", "Video Conferencing"],
+    "is_available": true
+  },
+  {
+    "id": "off-002",
+    "name": "Desk A-104",
+    "type": "Desk",
+    "capacity": 1,
+    "facilities": ["Monitor", "Ergonomic Chair"],
+    "is_available": false
+  },
+  {
+    "id": "off-003",
+    "name": "Phone Booth 3",
+    "type": "Phone Booth",
+    "capacity": 1,
+    "facilities": ["Soundproofing", "Power Outlet"],
+    "is_available": true
+  },
+  {
+    "id": "off-004",
+    "name": "Beta Huddle Space",
+    "type": "Meeting Room",
+    "capacity": 4,
+    "facilities": ["TV Screen", "Whiteboard"],
+    "is_available": true
+  },
+  {
+    "id": "off-005",
+    "name": "Desk B-205",
+    "type": "Desk",
+    "capacity": 1,
+    "facilities": ["Dual Monitors", "Standing Desk"],
+    "is_available": true
+  }
+]

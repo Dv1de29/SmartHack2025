@@ -1,0 +1,127 @@
+.room-list-container {
+    width: 100%;
+    max-width: 800px; /* Limit width for better readability on large screens */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.room-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-card h3 {
+    margin: 0 0 8px 0;
+    color: #111827;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.room-meta {
+    display: flex;
+    gap: 16px;
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.room-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.room-meta svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+}
+
+.room-facilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.facility-tag {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 500;
+}
+
+.room-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    min-width: 120px;
+}
+
+.status-badge {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.status-available {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-occupied {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.book-btn {
+    background-color: #1a56db;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.book-btn:hover:not(:disabled) {
+    background-color: #1e40af;
+}
+
+.book-btn:disabled {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px dashed #d1d5db;
+}

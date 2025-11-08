@@ -58,7 +58,6 @@ export default RoomsList;
 // --- Helper Functions & Local Icons ---
 
 function capitalizeFirstLetter(string: string) {
-    // Handles standard strings and hyphenated strings like 'phone-booth' -> 'Phone booth'
     return string.charAt(0).toUpperCase() + string.slice(1).replace(/-/g, ' ');
 }
 

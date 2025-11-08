@@ -36,19 +36,41 @@ const LoginPage: React.FC = () => {
         // --- AUTHENTICATION SIMULATION ---
         
         // In a real application, replace this with your actual API call (e.g., Firebase, custom backend):
-        // const response = await fetch('/api/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+        const response = await fetch('/api/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+
+        if ( !response.ok ){
+            throw new Error(`Not worked submit login: ${response.status}`)
+        }
+
+        const data = await response.json();
+
+        // Assuming API returns { token: '...', email: '...', role: 'user' }
+        if (data.token) {
+             // 1. Store the token for authorization headers in future requests
+             localStorage.setItem("authToken", data.token);
+             
+             // 2. Store user identification data (like email and role)
+             localStorage.setItem("userEmail", data.email || email); 
+             localStorage.setItem("userRole", data.role || 'guest');
+             
+             // Success: Navigate to the home page
+             navigate('/'); 
+        } else {
+             // Handle successful HTTP response but API error (e.g., missing token in data)
+             throw new Error("Réponse serveur invalide. Token manquant.");
+        }
         
         // Simulate network delay (1.5 seconds)
-        await new Promise(resolve => setTimeout(resolve, 1500)); 
+        // await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-        // Simulated login check: Use user@example.com / password for success
-        if (email === "user@example.com" && password === "password") {
-            // Success: Navigate to the home page (assuming '/' is the route)
-            navigate('/'); 
-        } else {
-            // Failure: Show error
-            setError("Email ou mot de passe incorrect. Veuillez réessayer.");
-        }
+        // // Simulated login check: Use user@example.com / password for success
+        // if (email === "user@example.com" && password === "password") {
+        //     // Success: Navigate to the home page (assuming '/' is the route)
+        //     navigate('/'); 
+        // } else {
+        //     // Failure: Show error
+        //     setError("Email ou mot de passe incorrect. Veuillez réessayer.");
+        // }
 
     } catch (err) { 
         console.error("Login attempt failed:", err);

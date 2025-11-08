@@ -12,8 +12,13 @@ function App() {
     <>
       {useLocation().pathname !== "/login" &&(<nav>
         <div className="links">
-          <Link to={"/"}>Home</Link>
-          <Link to={"/login"}>Login</Link>
+          <Link className='home-link lk' to={"/"}>Home</Link>
+          <div className="home-browser">
+            <Link className='lk' to={"/"}>Browse</Link>
+            <Link className='lk' to={"/bookings"}>My bookings</Link>
+          </div>
+
+          <Link className='login-link lk' to={"/login"}>Login</Link>
         </div>
       </nav>)}
 

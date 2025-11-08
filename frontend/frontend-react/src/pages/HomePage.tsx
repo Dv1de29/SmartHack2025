@@ -56,10 +56,10 @@ const HomePage: React.FC = () => {
   const [onlyAvailable, setOnlyAvailable] = useState(false);
 
   const filters = [
-    { name: 'all', icon: <AllIcon /> },
-    { name: 'Office', icon: <DeskIcon /> },
-    { name: 'meeting', icon: <MeetingRoomIcon /> },
-    { name: 'Phone Booth', icon: <PhoneBoothIcon /> },
+    { id: "all", name: 'All', icon: <AllIcon /> },
+    { id: "office", name: 'Office', icon: <DeskIcon /> },
+    { id: "meeting", name: 'meeting', icon: <MeetingRoomIcon /> },
+    { id: "phone-booth", name: 'Phone Booth', icon: <PhoneBoothIcon /> },
   ];
 
     useEffect(() => {
@@ -74,17 +74,17 @@ const HomePage: React.FC = () => {
             }
         }
 
-    fetched();
-  }, []);
+        fetched();
+    }, []);
 
-  const showedRooms = useMemo(() => {
-    return rooms.filter((room) => {
-        const matchFilter = selectedFilter === "all" || selectedFilter === room.type
-        const matchAvailable = !onlyAvailable || room.isAvailable
+    const showedRooms = useMemo(() => {
+        return rooms.filter((room) => {
+            const matchFilter = selectedFilter === "all" || selectedFilter === room.type
+            const matchAvailable = !onlyAvailable || room.isAvailable
 
-        return matchFilter && matchAvailable
-    })
-  }, [selectedFilter, onlyAvailable, rooms])
+            return matchFilter && matchAvailable
+        })
+    }, [selectedFilter, onlyAvailable, rooms])
 
 
   return (
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
                 className={`filter-btn ${
                   selectedFilter === filter.name ? 'active' : ''
                 }`}
-                onClick={() => setSelectedFilter(filter.name)}
+                onClick={() => setSelectedFilter(filter.id)}
               >
                 {filter.icon}
                 {filter.name}

@@ -1,6 +1,7 @@
 .room-list-container {
     width: 100%;
-    max-width: 800px; /* Limit width for better readability on large screens */
+    max-width: 800px;
+    justify-content: flex-start;
     display: flex;
     flex-direction: column;
     gap: 16px;

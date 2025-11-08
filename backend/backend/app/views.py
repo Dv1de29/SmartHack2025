@@ -36,7 +36,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
-# ---- Employee Login View ----
+
 class EmployeeLoginView(APIView):
     def post(self, request):
         email = request.data.get("email")

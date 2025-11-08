@@ -12,5 +12,5 @@ router.register(r'bookings', BookingViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/', EmployeeLoginView.as_view()),  # ✅ This line exposes /api/login/
+    path('login/', EmployeeLoginView.as_view()),
 ]

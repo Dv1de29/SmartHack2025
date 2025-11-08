@@ -6,7 +6,13 @@ import RoomsList from '../components/RoomsList';
 
 const getRooms = async (url: string): Promise<roomType[]> => {
     try {
-        const response = await fetch(url);
+        const token = localStorage.getItem("token")
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        // const response = await fetch(url);
         if (!response.ok) {
             const errorText = await response.text();
             if (errorText.trim().startsWith('<')) {

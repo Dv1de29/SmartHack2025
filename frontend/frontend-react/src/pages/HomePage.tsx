@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "../styles/HomePage.css";
+
+import axios from "axios";
 
 type Office = {
   id: number;
@@ -43,6 +45,8 @@ function HomePage() {
   const [selectedOffice, setSelectedOffice] = useState<Office | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [email, setEmail] = useState("david.barbu2005@gmail.com"); // example initial value
+  const [password, setPassword] = useState("david.barbu2005");
 
   const filteredOffices = useMemo(() => {
     return offices.filter((office) => {
@@ -54,6 +58,28 @@ function HomePage() {
     });
   }, [searchQuery, typeFilter]);
 
+
+useEffect(() => {
+  const getData = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: "david.barbu2005@gmail.com",
+        password: "david.barbu2005",
+      }),
+    });
+      const data = await res.json();
+      console.log(data); // this is your room list
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  getData();
+}, []);
   return (
     <div className="homepage-container">
       <div className="search-bar">

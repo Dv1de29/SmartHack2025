@@ -28,3 +28,9 @@ nav{
   transform: scale(1.1);
   background-color: rgb(75, 75, 75);
 }
+
+main{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}

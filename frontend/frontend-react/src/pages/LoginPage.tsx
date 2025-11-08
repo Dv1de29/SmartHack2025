@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles/LoginPage.css';
+import '../styles/LoginPage.css';
 import {
   FaBuilding,
   FaEnvelope,
@@ -22,7 +22,7 @@ function LoginPage() {
       <div className="login-container">
         <header className="login-header">
           <div className="logo">
-            <FaBuilding />
+            {/* <FaBuilding /> */}
           </div>
           <h1>Molson Coors</h1>
         </header>
@@ -35,7 +35,7 @@ function LoginPage() {
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <div className="input-wrapper">
-                <FaEnvelope className="input-icon" />
+                {/* <FaEnvelope className="input-icon" /> */}
                 <input
                   type="email"
                   id="email"
@@ -53,7 +53,7 @@ function LoginPage() {
                 </a>
               </div>
               <div className="input-wrapper">
-                <FaLock className="input-icon" />
+                {/* <FaLock className="input-icon" /> */}
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -65,7 +65,7 @@ function LoginPage() {
                   className="password-toggle"
                   onClick={togglePasswordVisibility}
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
                 </button>
               </div>
             </div>
@@ -84,11 +84,11 @@ function LoginPage() {
 
           <div className="social-login">
             <button className="social-btn google">
-              <FaGoogle />
+              {/* <FaGoogle /> */}
               Google
             </button>
             <button className="social-btn github">
-              <FaGithub />
+              {/* <FaGithub /> */}
               GitHub
             </button>
           </div>

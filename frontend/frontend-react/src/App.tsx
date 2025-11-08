@@ -18,10 +18,13 @@ function App() {
 
       </nav>
 
-      <Routes>
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='/login' element={<LoginPage/>}></Route>
-      </Routes>
+      <main>
+        <Routes>
+          <Route path='/' element={<HomePage/>}></Route>
+          <Route path='/login' element={<LoginPage/>}></Route>
+        </Routes>
+      </main>
+  
     </>
   );
 }

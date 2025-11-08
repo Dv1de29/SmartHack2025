@@ -11,12 +11,16 @@ function App() {
   return (
     <>
       <nav>
-        <Link to={"/"}>Home</Link>
-        <Link to={"/login"}>Login</Link>
+        <div className="links">
+          <Link to={"/"}>Home</Link>
+          <Link to={"/login"}>Login</Link>
+        </div>
+
       </nav>
 
       <Routes>
         <Route path='/' element={<HomePage/>}></Route>
+        <Route path='/login' element={<LoginPage/>}></Route>
       </Routes>
     </>
   );

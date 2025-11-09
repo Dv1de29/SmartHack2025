@@ -12,7 +12,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 # Employee Admin
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email', 'department', 'password', 'position', 'role', 'manager')
+    list_display = ('id', 'first_name', 'last_name', 'email', 'department', 'position', 'role', 'manager')
     search_fields = ('first_name', 'last_name', 'email', 'position')
     list_filter = ('department', 'role')
     autocomplete_fields = ('department', 'manager')  # Helpful for large datasets

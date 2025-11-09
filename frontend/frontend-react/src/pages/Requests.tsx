@@ -84,12 +84,15 @@ function Requests() {
     return;
   }
 
+  console.log("Sending status:", status); // ADD THIS
+  console.log("Status type:", typeof status); // ADD THIS TOO
+
   try {
     const response = await fetch(`http://localhost:8000/api/bookings/${id}/update-status/`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status }),
         });
@@ -128,9 +131,9 @@ function Requests() {
           </p>
 
           <div className="detail-status-section">
-            <button className='accept-btn' onClick={() => updateBookingStatus(selectedBooking.id, "Approved")}>Accept</button>
-            <button className='accept-btn' onClick={() => updateBookingStatus(selectedBooking.id, "Rejected")}>Close</button>
+            <button className='book-btn' onClick={() => updateBookingStatus(selectedBooking.id, "approved")}>Accept</button>
             <button className="book-btn" onClick={() => setSelectedBooking(null)}>Close</button>
+            <button className='book-btn' onClick={() => updateBookingStatus(selectedBooking.id, "rejected")}>Reject</button>
           </div>
         </div>
       )}

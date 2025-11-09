@@ -10,6 +10,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from datetime import timedelta, timezone
 from datetime import datetime
+from rest_framework.decorators import action
+
 
 exp = datetime.now(timezone.utc) + timedelta(hours=1)
 
@@ -35,6 +37,35 @@ class RoomViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print("Booking validation error:", serializer.errors)  # 👈 Add this
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=["patch"], url_path="update-status")
+    def update_status(self, request, pk=None):
+        booking = self.get_object()
+        new_status = request.data.get("status")
+
+        if new_status not in ["pending", "approved", "rejected", "cancelled"]:
+            return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
+
+        booking.status = new_status
+        booking.save()
+        return Response({"message": "Status updated", "status": booking.status})
+    
+    @action(detail=False, methods=["get"], url_path="by-employee/(?P<employee_id>[^/.]+)")
+    def by_employee(self, request, employee_id=None):
+        """Get all bookings for a specific employee"""
+        bookings = Booking.objects.filter(employee_id=employee_id).select_related('room', 'employee')
+        serializer = self.get_serializer(bookings, many=True)
+        return Response(serializer.data)
+
 
 
 class EmployeeLoginView(APIView):
@@ -49,16 +80,6 @@ class EmployeeLoginView(APIView):
         
         if employee.password != password:
             return Response({"error": "Invalid email or password"}, status=status.HTTP_401_UNAUTHORIZED)
-        
-        
-        payload = {
-            "employee_id": employee.id,
-            "email": employee.email,
-            "role": employee.role,
-            "exp": datetime.now(timezone.utc) + timedelta(hours=1) 
-        }
-        
-        token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
         
         refresh = RefreshToken.for_user(employee) 
         

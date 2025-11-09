@@ -6,14 +6,20 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 
 import './App.css';
+import BookingPage from './pages/Bookings';
 
 function App() {
   return (
     <>
       {useLocation().pathname !== "/login" &&(<nav>
         <div className="links">
-          <Link to={"/"}>Home</Link>
-          <Link to={"/login"}>Login</Link>
+          <Link className='home-link lk' to={"/"}>Home</Link>
+          <div className="home-browser">
+            <Link className='lk' to={"/"}>Browse</Link>
+            <Link className='lk' to={"/bookings"}>My bookings</Link>
+          </div>
+
+          <Link id='login-link' className='lk' to={"/login"}>Login</Link>
         </div>
       </nav>)}
 
@@ -21,6 +27,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage/>}></Route>
           <Route path='/login' element={<LoginPage/>}></Route>
+          <Route path='/bookings' element={<BookingPage />}></Route>
         </Routes>
       </main>
   

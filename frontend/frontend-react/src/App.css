@@ -6,27 +6,56 @@ nav{
   position: sticky;
   top: 0;
   left: 0;
-  background-color: rgb(44, 44, 44);
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid black;
+  z-index: 1000;
 }
 
 .links{
   padding: 0.5rem 1rem;
-  justify-self: flex-start;
+  width: 100vw;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.links > *{
+/* .home-link{
+  align-self: flex-start;
+}
+
+
+.login-link{
+  align-self: flex-end;
+  /* margin-left: auto; 
+  }
+  */
+  
+.home-browser{
+  align-self: center;
+  display: flex;
+  gap: 1rem;
+}
+
+
+.links .lk{
   text-decoration: none;
-  color: white;
+  color: black;
   border-radius: 10px;
   width: auto;
   padding: 0.2rem;
+  font-weight: bold;
 }
 
-.links > *:hover{
+.links .lk:hover{
   transform: scale(1.1);
-  background-color: rgb(75, 75, 75);
+  background-color: rgb(221, 221, 221);
+}
+
+#login-link{
+  padding: 0.5rem;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
 }
 
 main{

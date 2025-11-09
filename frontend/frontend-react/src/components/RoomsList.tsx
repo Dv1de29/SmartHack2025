@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/RoomsList.css';
 import { roomType } from '../assets/types';
+import { capitalizeFirstLetter } from '../assets/utils';
+import ClickedRoom from './ClickedRoom';
 
 interface RoomsListProps {
     rooms: roomType[];
 }
 
 const RoomsList: React.FC<RoomsListProps> = ({ rooms }) => {
+    const [ clicked, setClicked ] = useState<roomType | null>(null)
+
+
     return (
         <div className="room-list-container">
+            {clicked && (
+                <ClickedRoom
+                    clicked={clicked}
+                    setClicked={setClicked}
+                />
+            )}
             {rooms.length > 0 ? (
                 // 1. If rooms exist, map over them to render the cards.
                 rooms.map(room => (
-                    <div key={room.id} className={`room-card ${room.isAvailable ? 'available' : 'occupied'}`}>
+                    <div key={room.id} className={`room-card ${room.isAvailable === true ? 'available' : 'occupied'}`} onClick={(e) => setClicked(room)}>
                         <div className="room-info">
                             <h3>{room.name}</h3>
                             <div className="room-meta">
@@ -56,11 +67,6 @@ const RoomsList: React.FC<RoomsListProps> = ({ rooms }) => {
 export default RoomsList;
 
 // --- Helper Functions & Local Icons ---
-
-function capitalizeFirstLetter(string: string) {
-    // Handles standard strings and hyphenated strings like 'phone-booth' -> 'Phone booth'
-    return string.charAt(0).toUpperCase() + string.slice(1).replace(/-/g, ' ');
-}
 
 const UsersIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>

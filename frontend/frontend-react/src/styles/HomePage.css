@@ -87,12 +87,11 @@
 }
 
 .filter-btn.active {
-  background-color: #0f172a; /* Dark background for active 'Toate' button */
+  background-color: #0f172a;
   color: white;
   border-color: #0f172a;
 }
 
-/* Checkbox Style */
 .availability-filter {
   display: flex;
   align-items: center;
@@ -191,7 +190,7 @@
   flex: 1;
   padding: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   background-color: #f0f2f5;
 }

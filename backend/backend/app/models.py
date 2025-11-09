@@ -35,6 +35,7 @@ class Employee(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
+
 # Room Model
 class Room(models.Model):
     ROOM_TYPE_CHOICES = [

@@ -20,50 +20,75 @@ const LoginPage: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-  event.preventDefault();
-  setError(null);
-
-  if (!email || !password) {
-    setError("Veuillez saisir votre email et votre mot de passe.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const response = await fetch("http://localhost:8000/api/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Invalid credentials");
+    // 1. Prevent default form submission (stops page refresh)
+    event.preventDefault(); 
+    setError(null);
+    
+    // Simple validation
+    if (!email || !password) {
+        setError("Veuillez saisir votre email et votre mot de passe.");
+        return;
     }
 
-    const data = await response.json();
+    setLoading(true);
 
-    console.log(data)
+    try {
+        // --- AUTHENTICATION SIMULATION ---
+        
+        // In a real application, replace this with your actual API call (e.g., Firebase, custom backend):
+        const response = await fetch('http://localhost:8000/api/login/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', // ✅ This is critical
+          },
+          body: JSON.stringify({ email, password }),
+        });
 
-    // Store tokens and user info
-    localStorage.setItem("access", data.access);
-    localStorage.setItem("refresh", data.refresh);
-    localStorage.setItem("role", data.role);
-    localStorage.setItem("email", data.email);
 
-    // Redirect to homepage or dashboard
-    navigate("/");
+        if ( !response.ok ){
+            throw new Error(`Not worked submit login: ${response.status}`)
+        }
 
-  } catch (err) {
-    console.error("Login attempt failed:", err);
-    setError("Email ou mot de passe incorrect. Veuillez réessayer.");
-  } finally {
-    setLoading(false);
-  }
-};
+        const data = await response.json();
 
+        console.log(data)
+
+        // Assuming API returns { token: '...', email: '...', role: 'user' }
+        if (data.access) {
+             // 1. Store the token for authorization headers in future requests
+             localStorage.setItem("authToken", data.access);
+             
+             // 2. Store user identification data (like email and role)
+             localStorage.setItem("userEmail", data.email || email); 
+             localStorage.setItem("userRole", data.role || 'guest');
+             localStorage.setItem("employee_id", data.employee_id.toString());
+             
+             // Success: Navigate to the home page
+             navigate('/'); 
+        } else {
+             // Handle successful HTTP response but API error (e.g., missing token in data)
+             throw new Error("Réponse serveur invalide. Token manquant.");
+        }
+        
+        // Simulate network delay (1.5 seconds)
+        // await new Promise(resolve => setTimeout(resolve, 1500)); 
+
+        // // Simulated login check: Use user@example.com / password for success
+        // if (email === "user@example.com" && password === "password") {
+        //     // Success: Navigate to the home page (assuming '/' is the route)
+        //     navigate('/'); 
+        // } else {
+        //     // Failure: Show error
+        //     setError("Email ou mot de passe incorrect. Veuillez réessayer.");
+        // }
+
+    } catch (err) { 
+        console.error("Login attempt failed:", err);
+        setError("Échec de la connexion. Veuillez vérifier votre réseau.");
+    } finally {
+        setLoading(false);
+    }
+  };
 
   return (
     <div className="login-page">

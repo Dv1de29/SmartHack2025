@@ -42,14 +42,12 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'type', 'capacity', 'facilities', 'is_available']
 
 
-# Booking Serializer
-class BookingSerializer(serializers.ModelSerializer):
-    room = RoomSerializer(read_only=True)  # Nested room info
-    employee = EmployeeSerializer(read_only=True)  # Nested employee info
+# serializers.py
+from rest_framework import serializers
+from .models import Booking
 
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        fields = [
-            'id', 'room', 'employee', 'start_time', 'end_time',
-            'number_of_participants', 'status', 'created_at'
-        ]
+        fields = '__all__'
+

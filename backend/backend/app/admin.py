@@ -22,7 +22,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 # Room Admin
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'type', 'capacity', 'is_available')
+    list_display = ('id', 'name', 'type', 'capacity', 'is_available', 'facilities')
     search_fields = ('name',)
     list_filter = ('type', 'is_available')
 

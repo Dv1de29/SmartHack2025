@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/HomePage.css';
 
 import { roomType } from '../assets/types';
@@ -6,7 +6,14 @@ import RoomsList from '../components/RoomsList';
 
 const getRooms = async (url: string): Promise<roomType[]> => {
     try {
-        const response = await fetch(url);
+        const token = localStorage.getItem("authToken")
+        console.log(token)
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        // const response = await fetch(url);
         if (!response.ok) {
             const errorText = await response.text();
             if (errorText.trim().startsWith('<')) {
@@ -37,9 +44,9 @@ const getRooms = async (url: string): Promise<roomType[]> => {
             name: room.name,
             type: room.type, 
             capacity: room.capacity,
-            facilities: room.facilities,
+            facilities: room.facilities.replaceAll(" ", "").split(","),
             // Assuming the boolean field is named 'isAvailable' in offices.json
-            isAvailable: room.isAvailable, 
+            isAvailable: room.is_available, 
         }));
 
     } catch (error) {
@@ -62,9 +69,13 @@ const HomePage: React.FC = () => {
     { id: "phone-booth", name: 'Phone Booth', icon: <PhoneBoothIcon /> },
   ];
 
+    const didFetch = useRef<boolean>(false)
+
     useEffect(() => {
+        if ( didFetch.current ) return
+        didFetch.current = true
         const fetched = async () => {
-            const tempRooms = await getRooms("/data.json");
+            const tempRooms = await getRooms("http://localhost:8000/api/rooms/");
             console.log(tempRooms)
             
             setRooms(tempRooms)

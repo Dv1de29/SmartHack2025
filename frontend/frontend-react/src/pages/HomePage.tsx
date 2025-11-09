@@ -3,6 +3,7 @@ import '../styles/HomePage.css';
 
 import { roomType } from '../assets/types';
 import RoomsList from '../components/RoomsList';
+import MapComp from '../components/MapComp';
 
 const getRooms = async (url: string): Promise<roomType[]> => {
     try {
@@ -67,10 +68,10 @@ const HomePage: React.FC = () => {
   const filters = [
     { id: "all", name: 'All', icon: <AllIcon /> },
     { id: "office", name: 'Office', icon: <DeskIcon /> },
-    { id: "meeting", name: 'meeting', icon: <MeetingRoomIcon /> },
-    { id: "phone-booth", name: 'Phone Booth', icon: <PhoneBoothIcon /> },
+    { id: "meeting", name: 'Meeting', icon: <MeetingRoomIcon /> },
+    { id: "relaxation", name: 'Relax', icon: <PhoneBoothIcon /> },
   ];
-
+  
     const didFetch = useRef<boolean>(false)
 
     useEffect(() => {
@@ -163,7 +164,9 @@ const HomePage: React.FC = () => {
 
       <main className="content-area">
         {/* Content will go here based on viewMode */}
-        {viewMode === 'map' && (<></>)}
+        {viewMode === 'map' && (<>
+          <MapComp rooms={rooms} selectedFilter={selectedFilter} onlyAvailable={onlyAvailable}></MapComp>
+        </>)}
         {viewMode === 'list' && (
             <RoomsList rooms={showedRooms}/>
         )}

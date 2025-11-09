@@ -31,7 +31,7 @@ const RoomsList: React.FC<RoomsListProps> = ({ rooms }) => {
                                     {/* Icon based on type */}
                                     {room.type === 'meeting' && <MeetingRoomIcon />}
                                     {room.type === 'office' && <DeskIcon />}
-                                    {room.type === 'phone-booth' && <PhoneBoothIcon />}
+                                    {room.type === 'relaxation' && <PhoneBoothIcon />}
                                     {capitalizeFirstLetter(room.type)}
                                 </span>
                                 <span className="room-capacity">

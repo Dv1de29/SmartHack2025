@@ -1,0 +1,199 @@
+/* --- 1. Main Map Container Setup --- */
+
+/* The map-wrapper limits the width of the whole map presentation */
+.map-wrapper {
+    width: 100%;
+    max-width: 1000px; /* Adjust based on your preferred max size */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* The office-map-container is the key: it enables relative positioning 
+   for the absolute children (.hotspot-area) */
+.office-map-container {
+    position: relative;
+    width: 100%;
+    /* The height will be determined by the image aspect ratio */
+    padding-bottom: 60.33%; /* (868 / 1442) * 100% - Maintains aspect ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+/* The image must fill the entire container */
+.office-floor-plan-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    user-select: none;
+    z-index: 1; /* Keep image below hotspots */
+}
+
+
+/* --- 2. Hotspot Styles (The Colored Divs) --- */
+
+.hotspot-area {
+    /* Required for coordinate positioning */
+    position: absolute; 
+    
+    /* Make the divs sit on top of the image */
+    z-index: 5; 
+    
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    border: 1px dashed rgba(0, 0, 0, 0.1); /* Subtle outline for area visibility */
+    
+    /* Ensure text (if any) is centered */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* NEW: Ensure the base area is always transparent and non-intrusive */
+    background-color: transparent; 
+    border: none;
+}
+
+/* * The classes below define the appearance (shadow/border) for different types.
+* They should NOT set the background color, as that is handled by .available / .reserved.
+*/
+
+.hotspot-area.office {
+    /* Sets a border/shadow style for offices */
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1); 
+}
+
+.hotspot-area.meeting {
+    /* Sets a border/shadow style for meetings */
+    box-shadow: 0 0 0 1px rgba(64, 110, 195, 0.5); 
+}
+
+.hotspot-area.relax {
+    /* Sets a border/shadow style for relaxation areas */
+    box-shadow: 0 0 0 1px rgba(91, 34, 90, 0.5); 
+}
+
+.hotspot-area.static {
+    background-color: transparent !important;
+    cursor: default;
+    border: none;
+}
+
+
+/* --- STATUS OVERLAYS: These define the color and transparency --- */
+
+.hotspot-area.available {
+    background-color: rgba(13, 201, 79, 0.2); /* Light Green, Transparent */
+}
+
+.hotspot-area.reserved {
+    background-color: rgba(255, 99, 71, 0.2); /* Light Red/Coral, Transparent */
+}
+
+.hotspot-area.undefined-status {
+    background-color: rgba(255, 255, 0, 0.3); /* Yellow for debugging */
+    border: 2px solid yellow;
+}
+
+
+/* --- TYPE-SPECIFIC HOVER STATES --- */
+
+/* Office hover - Yellow */
+.hotspot-area.office:hover:not(.static) {
+    background-color: rgba(255, 255, 0, 0.5) !important; /* Bright Yellow */
+    box-shadow: 0 0 0 2px rgba(255, 255, 0, 0.8) !important;
+    z-index: 10;
+}
+
+/* Meeting hover - Blue */
+.hotspot-area.meeting:hover:not(.static) {
+    background-color: rgba(64, 110, 195, 0.5) !important; /* Blue */
+    box-shadow: 0 0 0 2px rgba(64, 110, 195, 0.8) !important;
+    z-index: 10;
+}
+
+/* Relax hover - Purple */
+.hotspot-area.relax:hover:not(.static) {
+    background-color: rgba(147, 51, 234, 0.5) !important; /* Purple */
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.8) !important;
+    z-index: 10;
+}
+
+/* Selected state (applies to all types) */
+.hotspot-area.meeting.selected:not(.static) {
+    background-color: rgba(30, 144, 255, 0.4) !important;
+    box-shadow: 0 0 0 3px dodgerblue !important;
+}
+
+.hotspot-area.relax.selected:not(.static) {
+ background-color: rgba(147, 51, 234, 0.5) !important; /* Purple */
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.8) !important;
+}
+
+.hotspot-area.office.selected:not(.static) {
+  background-color: rgba(255, 255, 0, 0.5) !important; /* Bright Yellow */
+    box-shadow: 0 0 0 2px rgba(255, 255, 0, 0.8) !important;
+}
+
+
+/* --- 3. Zoom/Seat Map Styles (Keep as basic styling) --- */
+.desk-zoom-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.seat-map {
+    position: relative;
+    width: 100%;
+    /* Simplified height for mock data */
+    min-height: 300px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eee;
+    background-color: #e9e9e9;
+    margin-bottom: 15px;
+}
+
+.seat {
+    position: absolute;
+    border-radius: 4px;
+    border: 1px solid #333;
+    opacity: 0.8;
+}
+
+.seat.available {
+    background-color: #38bdf8; /* Blue seat */
+}
+
+.seat.reserved {
+    background-color: #f87171; /* Red seat */
+}
+
+.seat-map img{
+    width: 50vw;
+    height: 50vw;
+}
+
+.desk-zoom-container .btns{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.desk-zoom-container button{
+    width: 7.5rem;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 50px;
+}

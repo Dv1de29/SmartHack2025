@@ -166,7 +166,7 @@
               </div>
 
               <button type="submit" className="signin-btn" disabled={loading}>
-                {loading ? 'Connexion...' : 'Sign In'}
+                {loading ? 'Connecting...' : 'Sign In'}
               </button>
             </form>
 

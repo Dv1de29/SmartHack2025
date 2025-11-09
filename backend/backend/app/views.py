@@ -90,8 +90,37 @@ class BookingViewSet(viewsets.ModelViewSet):
                 {"error": str(e)}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+            
+    @action(detail=False, methods=["get"], url_path="pending")
+    def pending_bookings(self, request):
+        """Get all pending bookings"""
+        bookings = Booking.objects.filter(status='pending').select_related('room', 'employee')
+        serializer = self.get_serializer(bookings, many=True)
+        return Response(serializer.data)
     
 
+    @action(detail=True, methods=["patch"], url_path="update-status")
+    def update_status(self, request, pk=None):
+        """Update status of a booking"""
+        new_status = request.data.get("status")
+        if new_status not in ["pending", "approved", "rejected", "cancelled"]:
+            return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            booking = self.get_object()
+            booking.status = new_status
+            booking.save()
+            return Response({"message": "Status updated", "status": booking.status})
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=["get"], url_path="all")
+    def list_all_bookings(self, request):
+        """Return all bookings"""
+        bookings = Booking.objects.select_related("room", "employee").all()
+        serializer = self.get_serializer(bookings, many=True)
+        return Response(serializer.data)
 
 class EmployeeLoginView(APIView):
     permission_classes = [AllowAny]

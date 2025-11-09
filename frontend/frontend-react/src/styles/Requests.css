@@ -1,0 +1,11 @@
+.requests-container{
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(30vw, 500px));
+    gap: 1rem;
+}
+
+.status-pending {
+  border-left:1rem solid #fef9c3;
+  color: #92400e;
+}

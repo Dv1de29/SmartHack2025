@@ -7,10 +7,11 @@ from .serializers import DepartmentSerializer, EmployeeSerializer, RoomSerialize
 import jwt
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from datetime import timedelta, timezone
 from datetime import datetime
 from rest_framework.decorators import action
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 exp = datetime.now(timezone.utc) + timedelta(hours=1)
@@ -65,10 +66,36 @@ class BookingViewSet(viewsets.ModelViewSet):
         bookings = Booking.objects.filter(employee_id=employee_id).select_related('room', 'employee')
         serializer = self.get_serializer(bookings, many=True)
         return Response(serializer.data)
-
+    
+    def destroy(self, request, *args, **kwargs):
+        """Override delete to add better error handling"""
+        try:
+            instance = self.get_object()
+            
+            # Optional: Check if user owns the booking
+            # if instance.employee_id != request.user.id:
+            #     return Response(
+            #         {"error": "You can only delete your own bookings"}, 
+            #         status=status.HTTP_403_FORBIDDEN
+            #     )
+            
+            self.perform_destroy(instance)
+            return Response(
+                {"message": "Booking deleted successfully"}, 
+                status=status.HTTP_204_NO_CONTENT
+            )
+        except Exception as e:
+            print(f"Error deleting booking: {e}")  # 👈 This will show in console
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
 
 
 class EmployeeLoginView(APIView):
+    permission_classes = [AllowAny]
+    
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -81,7 +108,11 @@ class EmployeeLoginView(APIView):
         if employee.password != password:
             return Response({"error": "Invalid email or password"}, status=status.HTTP_401_UNAUTHORIZED)
         
-        refresh = RefreshToken.for_user(employee) 
+        # 👇 CREATE TOKEN MANUALLY (not using .for_user())
+        refresh = RefreshToken()
+        refresh['user_id'] = employee.id  # Add employee ID
+        refresh['email'] = employee.email
+        refresh['role'] = employee.role
         
         return Response({
             "employee_id": employee.id,

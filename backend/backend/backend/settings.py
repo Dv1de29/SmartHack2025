@@ -45,9 +45,13 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'app.authentication.EmployeeJWTAuthentication',
     ],
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

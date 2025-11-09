@@ -37,6 +37,8 @@ const getRooms = async (url: string): Promise<roomType[]> => {
             console.error("Data structure error: Expected an array of rooms.", data);
             return [];
         }
+
+        console.log(resultsArray)
         
         // 3. Map the data using the correct property names from offices.json
         return resultsArray.map((room: any) => ({

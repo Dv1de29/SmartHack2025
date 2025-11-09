@@ -31,6 +31,14 @@ class Employee(models.Model):
     manager = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='subordinates')
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
 
+    @property
+    def is_authenticated(self):
+        return True
+    
+    @property
+    def is_anonymous(self):
+        return False
+    
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 

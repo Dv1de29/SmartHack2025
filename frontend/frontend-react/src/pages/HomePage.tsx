@@ -1,18 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/HomePage.css';
 
 import { roomType } from '../assets/types';
 import RoomsList from '../components/RoomsList';
+import { useNavigate } from 'react-router-dom';
 
 const getRooms = async (url: string): Promise<roomType[]> => {
     try {
-        const token = localStorage.getItem("token")
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        // const response = await fetch(url);
+        const token = localStorage.getItem("authToken")
+        // const response = await fetch(url, {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`,
+        //     },
+        // });
+        const response = await fetch(url);
         if (!response.ok) {
             const errorText = await response.text();
             if (errorText.trim().startsWith('<')) {
@@ -43,7 +44,7 @@ const getRooms = async (url: string): Promise<roomType[]> => {
             name: room.name,
             type: room.type, 
             capacity: room.capacity,
-            facilities: room.facilities,
+            facilities: room.facilities.replaceAll(" ", "").split(","),
             // Assuming the boolean field is named 'isAvailable' in offices.json
             isAvailable: room.isAvailable, 
         }));
@@ -55,9 +56,14 @@ const getRooms = async (url: string): Promise<roomType[]> => {
 };
 
 const HomePage: React.FC = () => {
+    const navigate = useNavigate()
+    if ( !localStorage.getItem("employee_id") ) navigate("/login");
+
+
   const [ rooms, setRooms ] = useState<roomType[]>([])
 
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
+  const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [onlyAvailable, setOnlyAvailable] = useState(false);
 
@@ -68,7 +74,13 @@ const HomePage: React.FC = () => {
     { id: "phone-booth", name: 'Phone Booth', icon: <PhoneBoothIcon /> },
   ];
 
+  const didFetch = useRef<boolean>(false)
+
     useEffect(() => {
+        if ( didFetch.current ) return
+        didFetch.current = true
+
+
         const fetched = async () => {
             const tempRooms = await getRooms("/data.json");
             console.log(tempRooms)
@@ -85,12 +97,13 @@ const HomePage: React.FC = () => {
 
     const showedRooms = useMemo(() => {
         return rooms.filter((room) => {
+            const matchString = !searchFilter || room.name.includes(searchFilter)
             const matchFilter = selectedFilter === "all" || selectedFilter === room.type
             const matchAvailable = !onlyAvailable || room.isAvailable
 
             return matchFilter && matchAvailable
         })
-    }, [selectedFilter, onlyAvailable, rooms])
+    }, [selectedFilter, onlyAvailable, searchFilter, rooms])
 
 
   return (

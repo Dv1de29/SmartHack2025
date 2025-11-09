@@ -43,11 +43,19 @@ nav{
   border-radius: 10px;
   width: auto;
   padding: 0.2rem;
+  font-weight: bold;
 }
 
 .links .lk:hover{
   transform: scale(1.1);
   background-color: rgb(221, 221, 221);
+}
+
+#login-link{
+  padding: 0.5rem;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
 }
 
 main{

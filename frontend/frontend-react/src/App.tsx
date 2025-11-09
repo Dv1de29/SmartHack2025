@@ -4,10 +4,15 @@ import { useLocation, Link, Navigate, Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import BookingPage from './pages/Bookings';
+import Requests from './pages/Requests';
 
 import './App.css';
 
 function App() {
+  const employee_role = localStorage.getItem("userRole")
+
+
   return (
     <>
       {useLocation().pathname !== "/login" &&(<nav>
@@ -16,9 +21,14 @@ function App() {
           <div className="home-browser">
             <Link className='lk' to={"/"}>Browse</Link>
             <Link className='lk' to={"/bookings"}>My bookings</Link>
+            {employee_role === "manager" && (
+              <>
+                <Link id='admin-link' className='lk' to={"/requests"}>Requests</Link>
+              </>
+            )}
           </div>
 
-          <Link className='login-link lk' to={"/login"}>Login</Link>
+          <Link id='login-link' className='lk' to={"/login"}>Login</Link>
         </div>
       </nav>)}
 
@@ -26,6 +36,9 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage/>}></Route>
           <Route path='/login' element={<LoginPage/>}></Route>
+          <Route path='/bookings' element={<BookingPage />}></Route>
+          <Route path='/requests' element={<Requests />}></Route>
+          <Route path='*' element={<Navigate to={"/"} replace />}></Route>
         </Routes>
       </main>
   

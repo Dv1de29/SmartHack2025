@@ -126,3 +126,80 @@
     border-radius: 12px;
     border: 1px dashed #d1d5db;
 }
+
+
+
+/* --- New Styles for Clicked Room Detail Modal --- */
+
+.clicked-room-cont {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Requested dimensions */
+    width: 600px; 
+    max-width: 90vw; /* Ensure it fits on smaller screens */
+    height: 400px;
+    
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it is above everything else */
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.clicked-room-cont h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #111827;
+}
+
+.room-detail-type,
+.room-detail-capacity {
+    font-size: 16px;
+    color: #4b5563;
+    margin: 0;
+}
+
+.clicked-room-cont h4 {
+    margin: 15px 0 5px 0;
+    color: #374151;
+    font-size: 14px;
+}
+
+.detail-status-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes content to the bottom of the container */
+    padding-top: 15px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #111827;
+}
+
+/* Optional: Highlight selected card */
+.room-card.selected {
+    border-color: #1a56db;
+    background-color: #f0f8ff;
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.3);
+}

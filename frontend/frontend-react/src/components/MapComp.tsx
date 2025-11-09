@@ -176,8 +176,9 @@ const calculateSeatStyle = (coords: string): React.CSSProperties => {
   };
 };
 
-const handleRezerve = () => {
+const handleRezerve = (id: string) => {
   console.log("Reserve button clicked!");
+  
 }
 
 
@@ -273,7 +274,8 @@ const MapComp: React.FC<MapCompProps> = ({ rooms, selectedFilter, onlyAvailable 
 }, [ALL_HOTSPOTS, selectedFilter, onlyAvailable, roomStatusMap]);
 
 
-  console.log(showedHotspots)
+  
+
   return (
     <div className="map-wrapper">
       <div className="office-map-container">
@@ -318,9 +320,6 @@ const MapComp: React.FC<MapCompProps> = ({ rooms, selectedFilter, onlyAvailable 
         <div className="desk-zoom-container">
           <h3>{zoomData.deskId.replace(/_/g, ' ')} Seats</h3>
           <div className="seat-map">
-            { zoomData.type === "office" && (<img src={OfficeImage} alt="Office Layout" />)}
-            { zoomData.type === "meeting" && (<img src={MeetingImage} alt="Meeting Room Layout" />)}
-            { zoomData.type === "relax" && (<img src={RelaxImage} alt="Relaxation Area Layout" />)}
             
             {/* Render mock seats only for the office zoom type */}
             { zoomData.type === "office" && zoomData.seats.map((seat) => (
@@ -331,10 +330,15 @@ const MapComp: React.FC<MapCompProps> = ({ rooms, selectedFilter, onlyAvailable 
                 title={seat.seat_id}
               />
             ))}
+            {zoomData.type === "meeting" && (
+              <div className="meeting-comntainer">
+
+              </div>
+            )}
           </div>
           <div className="btns">
                 <button onClick={() => {setZoomData(null); setSelectedHotspotId(null)}}>Back to Map</button>
-                <button onClick={handleRezerve}>Reserve</button>
+                <button onClick={() => handleRezerve(zoomData.deskId)}>Reserve</button>
           </div>
         </div>
       )}

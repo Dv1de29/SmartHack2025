@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useLocation, Link, Navigate, Routes, Route } from 'react-router-dom';
+import { useLocation, Link, Navigate, Routes, Route, useNavigate } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -11,6 +11,16 @@ import './App.css';
 
 function App() {
   const employee_role = localStorage.getItem("userRole")
+  const navigate = useNavigate()
+
+    const handleLogClick = () => {
+      if (!employee_role) navigate("/login")
+        else{
+      localStorage.removeItem("authToken")
+      localStorage.removeItem("userRole")
+      localStorage.removeItem("")
+      }
+    }
 
 
   return (
@@ -28,7 +38,7 @@ function App() {
             )}
           </div>
 
-          <Link id='login-link' className='lk' to={"/login"}>Login</Link>
+          <Link id='login-link' className='lk' to={"/login"} onClick={() => handleLogClick()}>{!employee_role ? "Log in" : "Logout"}</Link>
         </div>
       </nav>)}
 

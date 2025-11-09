@@ -61,6 +61,7 @@ const getRooms = async (url: string): Promise<roomType[]> => {
 const HomePage: React.FC = () => {
   const [ rooms, setRooms ] = useState<roomType[]>([])
 
+  const [searchFilter, setSearchFilter] = useState<string>("");
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [onlyAvailable, setOnlyAvailable] = useState(false);
@@ -93,12 +94,13 @@ const HomePage: React.FC = () => {
 
     const showedRooms = useMemo(() => {
         return rooms.filter((room) => {
+            const matchString = searchFilter === "" || room.name.toUpperCase().includes(searchFilter.toUpperCase())
             const matchFilter = selectedFilter === "all" || selectedFilter === room.type
             const matchAvailable = !onlyAvailable || room.isAvailable
 
-            return matchFilter && matchAvailable
+            return matchFilter && matchAvailable && matchString
         })
-    }, [selectedFilter, onlyAvailable, rooms])
+    }, [selectedFilter, onlyAvailable, searchFilter, rooms])
 
 
   return (
@@ -117,6 +119,7 @@ const HomePage: React.FC = () => {
 
       <div className="controls-container">
         <div className="filters-wrapper">
+      
           <div className="type-filters">
             {filters.map((filter) => (
               <button
@@ -142,6 +145,15 @@ const HomePage: React.FC = () => {
               Doar disponibile
             </label>
           </div>
+          <div className="search-filter top">
+                <input
+                type="text"
+                id="search-filt"
+                placeholder="Caută o sală sau un birou..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                />
+            </div>
         </div>
 
         <div className="view-toggle-container">
